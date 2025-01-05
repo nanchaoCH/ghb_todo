@@ -34,4 +34,10 @@ class TodoProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void removeTodo(int index) {
+    _todos.removeAt(index);
+
+    notifyListeners();
+  }
 }
