@@ -65,7 +65,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextField(
             controller: _titleController,
@@ -78,13 +78,11 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
           const SizedBox(height: 15),
           const Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              'Priority:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
+            child: Text('Priority:'),
           ),
           const SizedBox(height: 5),
           DropdownButton<Priority>(
+            isExpanded: true,
             value: _selectedPriority,
             onChanged: (value) {
               if (value != null) {
@@ -103,10 +101,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
           const SizedBox(height: 15),
           const Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              'Due Date:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
+            child: Text('Due Date:'),
           ),
           const SizedBox(height: 5),
           TextButton(
@@ -126,7 +121,8 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
             child: Text(
               _selectedDueDate == null
                   ? 'Select Due Date'
-                  : 'Due: ${DateFormat('dd-MMM-yyyy').format(_selectedDueDate!.toLocal())}',
+                  : DateFormat('dd-MMM-yyyy')
+                      .format(_selectedDueDate!.toLocal()),
               style: const TextStyle(fontSize: 16),
             ),
           ),
@@ -135,7 +131,12 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              color: Colors.grey,
+            ),
+          ),
         ),
         TextButton(
           onPressed: () {
