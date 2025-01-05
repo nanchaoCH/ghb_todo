@@ -22,4 +22,16 @@ class TodoProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void updateTodo(
+      int index, String title, Priority priority, DateTime dueDate) {
+    _todos[index] = TodoModel(
+      title: title,
+      priority: priority,
+      dueDate: dueDate,
+      createdDate: _todos[index].createdDate,
+    );
+
+    notifyListeners();
+  }
 }
