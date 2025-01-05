@@ -65,6 +65,25 @@ class TodoListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final todos = Provider.of<TodoProvider>(context).todos;
 
+    final priorityOrder = [
+      Priority.high.name,
+      Priority.medium.name,
+      Priority.low.name,
+    ];
+
+    todos.sort((a, b) {
+      final priorityComparison =
+          priorityOrder.indexOf(a.priority.name).compareTo(
+                priorityOrder.indexOf(b.priority.name),
+              );
+
+      if (priorityComparison == 0) {
+        return a.title.compareTo(b.title);
+      }
+
+      return priorityComparison;
+    });
+
     Color getTaskIconColor(Priority priority) {
       switch (priority) {
         case Priority.high:
