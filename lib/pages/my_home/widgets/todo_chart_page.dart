@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/bar_chart_model.dart';
 import '../../../models/todo_model.dart';
 import '../../../providers/todo_provider.dart';
 
@@ -42,13 +43,12 @@ class _TodoChartPageState extends State<TodoChartPage> {
     }
 
     final priorityCounts = _calculatePriorityCounts(todos);
-
-    return Column(
+    final pieChart = Column(
       children: [
         const SizedBox(height: 20),
         Text(
           "Todo Priority Distribution",
-          style: Theme.of(context).textTheme.titleLarge,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         SizedBox(
           height: MediaQuery.of(context).size.width * 0.6,
@@ -61,6 +61,59 @@ class _TodoChartPageState extends State<TodoChartPage> {
           ),
         ),
       ],
+    );
+
+    final barChartSimple = Column(
+      children: [
+        const SizedBox(height: 20),
+        Text(
+          "Todo Count by Month",
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.6,
+          child: BarChart(
+            BarChartData(
+              alignment: BarChartAlignment.spaceAround,
+              barGroups: _createBarGroups(),
+              borderData: FlBorderData(
+                show: true,
+                border: Border.all(color: Colors.grey),
+              ),
+              titlesData: FlTitlesData(
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    getTitlesWidget: (
+                      double value,
+                      TitleMeta meta,
+                    ) {
+                      final index = value.toInt();
+
+                      if (index < data.length) {
+                        return Text(data[index].label);
+                      }
+
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ),
+            ),
+            duration: const Duration(milliseconds: 150),
+            curve: Curves.linear,
+          ),
+        ),
+      ],
+    );
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          pieChart,
+          barChartSimple,
+        ],
+      ),
     );
   }
 
@@ -89,6 +142,33 @@ class _TodoChartPageState extends State<TodoChartPage> {
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
+      );
+    }).toList();
+  }
+
+  final List<BarChartModel> data = [
+    BarChartModel(label: 'Jan', value: 10),
+    BarChartModel(label: 'Feb', value: 20),
+    BarChartModel(label: 'Mar', value: 30),
+    BarChartModel(label: 'Apr', value: 25),
+    BarChartModel(label: 'May', value: 15),
+  ];
+
+  List<BarChartGroupData> _createBarGroups() {
+    return data.asMap().entries.map((entry) {
+      final index = entry.key;
+      final barData = entry.value;
+
+      return BarChartGroupData(
+        x: index,
+        barRods: [
+          BarChartRodData(
+            toY: barData.value,
+            color: Colors.green,
+            width: 20,
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ],
       );
     }).toList();
   }
