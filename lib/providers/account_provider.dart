@@ -21,6 +21,8 @@ class AccountProvider with ChangeNotifier {
       _token = response.data["token"];
       _user = response.data["user"];
 
+      _apiService.setAuthToken(token);
+
       notifyListeners();
       return true;
     }
@@ -37,8 +39,9 @@ class AccountProvider with ChangeNotifier {
       _token = null;
       _user = null;
 
-      notifyListeners();
+      _apiService.setAuthToken(null);
 
+      notifyListeners();
       return true;
     }
 
