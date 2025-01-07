@@ -8,15 +8,19 @@ class TodoProvider with ChangeNotifier {
 
   void addTodo(
     String title,
-    Priority priority,
+    ToDoPriority priority,
+    ToDoStatus status,
     DateTime dueDate,
   ) {
     _todos.add(
       TodoModel(
+        id: 'test_id',
         title: title,
         priority: priority,
+        status: status,
         dueDate: dueDate,
-        createdDate: DateTime.now(),
+        createdAt: DateTime.now(),
+        createdBy: 'user',
       ),
     );
 
@@ -24,12 +28,23 @@ class TodoProvider with ChangeNotifier {
   }
 
   void updateTodo(
-      int index, String title, Priority priority, DateTime dueDate) {
+    int index,
+    String title,
+    ToDoPriority priority,
+    ToDoStatus status,
+    DateTime dueDate,
+    TodoModel originModel,
+  ) {
     _todos[index] = TodoModel(
+      id: originModel.id,
       title: title,
       priority: priority,
+      status: status,
       dueDate: dueDate,
-      createdDate: _todos[index].createdDate,
+      createdAt: originModel.createdAt,
+      createdBy: originModel.createdBy,
+      updatedAt: DateTime.now(),
+      updatedBy: 'user',
     );
 
     notifyListeners();

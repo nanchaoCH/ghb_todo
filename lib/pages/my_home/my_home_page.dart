@@ -32,14 +32,21 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context) => TodoFormModalWidget(
         initialTitle: null,
         initialPriority: null,
+        initialStatus: null,
         initialDueDate: null,
-        onSave: (title, priority, dueDate) {
+        onSave: (
+          title,
+          status,
+          priority,
+          dueDate,
+        ) {
           Provider.of<TodoProvider>(
             context,
             listen: false,
           ).addTodo(
             title,
             priority,
+            status,
             dueDate,
           );
         },

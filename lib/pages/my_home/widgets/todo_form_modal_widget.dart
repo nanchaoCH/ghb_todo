@@ -6,15 +6,22 @@ import '../../../models/todo_model.dart';
 class TodoFormModalWidget extends StatefulWidget {
   final bool isEdit;
   final String? initialTitle;
-  final Priority? initialPriority;
+  final ToDoPriority? initialPriority;
+  final ToDoStatus? initialStatus;
   final DateTime? initialDueDate;
-  final Function(String, Priority, DateTime) onSave;
+  final Function(
+    String,
+    ToDoStatus,
+    ToDoPriority,
+    DateTime,
+  ) onSave;
 
   const TodoFormModalWidget({
     super.key,
     required this.isEdit,
     required this.initialTitle,
     required this.initialPriority,
+    required this.initialStatus,
     required this.initialDueDate,
     required this.onSave,
   });
@@ -28,14 +35,14 @@ class TodoFormModalWidget extends StatefulWidget {
 
 class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
   late TextEditingController _titleController;
-  late Priority? _selectedPriority;
+  late ToDoPriority? _selectedPriority;
   late DateTime? _selectedDueDate;
 
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.initialTitle);
-    _selectedPriority = widget.initialPriority ?? Priority.low;
+    _selectedPriority = widget.initialPriority ?? ToDoPriority.low;
     _selectedDueDate = widget.initialDueDate;
   }
 
@@ -81,7 +88,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
             child: Text('Priority:'),
           ),
           const SizedBox(height: 5),
-          DropdownButton<Priority>(
+          DropdownButton<ToDoPriority>(
             isExpanded: true,
             value: _selectedPriority,
             onChanged: (value) {
@@ -91,7 +98,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
                 });
               }
             },
-            items: Priority.values.map((priority) {
+            items: ToDoPriority.values.map((priority) {
               return DropdownMenuItem(
                 value: priority,
                 child: Text(priority.name.toUpperCase()),
@@ -148,6 +155,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
 
             widget.onSave(
               _titleController.text,
+              ToDoStatus.pending,
               _selectedPriority!,
               _selectedDueDate!,
             );
