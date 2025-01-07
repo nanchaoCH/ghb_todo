@@ -20,10 +20,25 @@ class TodoListPage extends StatelessWidget {
       builder: (context) => TodoFormModalWidget(
         initialTitle: todo.title,
         initialPriority: todo.priority,
+        initialStatus: todo.status,
         initialDueDate: todo.dueDate,
-        onSave: (title, priority, dueDate) {
-          Provider.of<TodoProvider>(context, listen: false)
-              .updateTodo(index, title, priority, dueDate);
+        onSave: (
+          title,
+          priority,
+          status,
+          dueDate,
+        ) {
+          Provider.of<TodoProvider>(
+            context,
+            listen: false,
+          ).updateTodo(
+            index,
+            title,
+            status,
+            priority,
+            dueDate,
+            todo,
+          );
         },
         isEdit: true,
       ),
@@ -66,9 +81,9 @@ class TodoListPage extends StatelessWidget {
     final todos = Provider.of<TodoProvider>(context).todos;
 
     final priorityOrder = [
-      Priority.high.name,
-      Priority.medium.name,
-      Priority.low.name,
+      ToDoPriority.high.name,
+      ToDoPriority.medium.name,
+      ToDoPriority.low.name,
     ];
 
     todos.sort((a, b) {
@@ -84,13 +99,13 @@ class TodoListPage extends StatelessWidget {
       return priorityComparison;
     });
 
-    Color getTaskIconColor(Priority priority) {
+    Color getTaskIconColor(ToDoPriority priority) {
       switch (priority) {
-        case Priority.high:
+        case ToDoPriority.high:
           return Colors.red;
-        case Priority.medium:
+        case ToDoPriority.medium:
           return Colors.orange;
-        case Priority.low:
+        case ToDoPriority.low:
           return Colors.green;
       }
     }

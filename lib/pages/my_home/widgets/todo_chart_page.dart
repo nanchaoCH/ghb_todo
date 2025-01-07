@@ -14,11 +14,11 @@ class TodoChartPage extends StatefulWidget {
 }
 
 class _TodoChartPageState extends State<TodoChartPage> {
-  Map<Priority, int> _calculatePriorityCounts(List<TodoModel> todos) {
-    final Map<Priority, int> counts = {
-      Priority.low: 0,
-      Priority.medium: 0,
-      Priority.high: 0,
+  Map<ToDoPriority, int> _calculatePriorityCounts(List<TodoModel> todos) {
+    final Map<ToDoPriority, int> counts = {
+      ToDoPriority.low: 0,
+      ToDoPriority.medium: 0,
+      ToDoPriority.high: 0,
     };
 
     for (var todo in todos) {
@@ -118,13 +118,13 @@ class _TodoChartPageState extends State<TodoChartPage> {
   }
 
   List<PieChartSectionData> _buildPieChartSections(
-    Map<Priority, int> priorityCounts,
+    Map<ToDoPriority, int> priorityCounts,
   ) {
     final total = priorityCounts.values.reduce((a, b) => a + b);
     final colors = {
-      Priority.high: Colors.red,
-      Priority.medium: Colors.orange,
-      Priority.low: Colors.green,
+      ToDoPriority.high: Colors.red,
+      ToDoPriority.medium: Colors.orange,
+      ToDoPriority.low: Colors.green,
     };
 
     return priorityCounts.entries.map((entry) {
