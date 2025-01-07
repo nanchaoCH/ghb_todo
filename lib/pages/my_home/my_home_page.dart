@@ -5,6 +5,7 @@ import 'package:ghb_todo/pages/my_home/widgets/todo_list_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/todo_provider.dart';
+import '../../routes/app_routes.dart';
 import 'widgets/todo_form_modal_widget.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -77,6 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(getTitleByPageIndex()),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, AppRoutes.login);
+            },
+          ),
+        ],
       ),
       body: IndexedStack(
         index: _currentIndex,
