@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../routes/app_routes.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -45,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                 minimumSize: const Size(200, 40),
               ),
               onPressed: () => {
-                print('*** call login'),
+                Navigator.pushReplacementNamed(context, AppRoutes.homePage),
               },
               child: const Text('Login'),
             ),

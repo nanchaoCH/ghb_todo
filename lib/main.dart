@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ghb_todo/pages/login/login_page.dart';
-import 'package:ghb_todo/pages/my_home/my_home_page.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/todo_provider.dart';
+import 'routes/route.dart';
 
 void main() {
   runApp(
@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(),
       home: const LoginPage(),
       // home: Scaffold(
       //   appBar: AppBar(
@@ -39,6 +38,8 @@ class MyApp extends StatelessWidget {
       //     child: Text('todo app'),
       //   ),
       // ),
+      onGenerateRoute: Routes.generateRoute,
+      initialRoute: Routes.initialRoute,
     );
   }
 }
