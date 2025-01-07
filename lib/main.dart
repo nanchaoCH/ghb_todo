@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ghb_todo/pages/login/login_page.dart';
 import 'package:provider/provider.dart';
 
+import 'providers/account_provider.dart';
 import 'providers/todo_provider.dart';
 import 'routes/route.dart';
 
@@ -10,6 +11,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => TodoProvider()),
+        ChangeNotifierProvider(create: (_) => AccountProvider()),
       ],
       child: const MyApp(),
     ),
