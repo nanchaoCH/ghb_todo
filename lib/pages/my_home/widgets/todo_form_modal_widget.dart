@@ -36,6 +36,7 @@ class TodoFormModalWidget extends StatefulWidget {
 class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
   late TextEditingController _titleController;
   late ToDoPriority? _selectedPriority;
+  late ToDoStatus? _selectedStatus;
   late DateTime? _selectedDueDate;
 
   @override
@@ -43,6 +44,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
     super.initState();
     _titleController = TextEditingController(text: widget.initialTitle);
     _selectedPriority = widget.initialPriority ?? ToDoPriority.low;
+    _selectedStatus = widget.initialStatus ?? ToDoStatus.pending;
     _selectedDueDate = widget.initialDueDate;
   }
 
@@ -70,70 +72,93 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
           title,
         ],
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          TextField(
-            controller: _titleController,
-            decoration: const InputDecoration(
-              hintText: 'Enter a task',
-              labelText: 'Task Title',
-              border: OutlineInputBorder(),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(
+                hintText: 'Enter a task',
+                labelText: 'Task Title',
+                border: OutlineInputBorder(),
+              ),
             ),
-          ),
-          const SizedBox(height: 15),
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Priority:'),
-          ),
-          const SizedBox(height: 5),
-          DropdownButton<ToDoPriority>(
-            isExpanded: true,
-            value: _selectedPriority,
-            onChanged: (value) {
-              if (value != null) {
-                setState(() {
-                  _selectedPriority = value;
-                });
-              }
-            },
-            items: ToDoPriority.values.map((priority) {
-              return DropdownMenuItem(
-                value: priority,
-                child: Text(priority.name.toUpperCase()),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 15),
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Due Date:'),
-          ),
-          const SizedBox(height: 5),
-          TextButton(
-            onPressed: () async {
-              final pickedDate = await showDatePicker(
-                context: context,
-                initialDate: _selectedDueDate,
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2100),
-              );
-              if (pickedDate != null) {
-                setState(() {
-                  _selectedDueDate = pickedDate;
-                });
-              }
-            },
-            child: Text(
-              _selectedDueDate == null
-                  ? 'Select Due Date'
-                  : DateFormat('dd-MMM-yyyy')
-                      .format(_selectedDueDate!.toLocal()),
-              style: const TextStyle(fontSize: 16),
+            const SizedBox(height: 15),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Status:'),
             ),
-          ),
-        ],
+            DropdownButton<ToDoStatus>(
+              isExpanded: true,
+              value: _selectedStatus,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _selectedStatus = value;
+                  });
+                }
+              },
+              items: ToDoStatus.values.map((priority) {
+                return DropdownMenuItem(
+                  value: priority,
+                  child: Text(priority.name.toUpperCase()),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 15),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Priority:'),
+            ),
+            DropdownButton<ToDoPriority>(
+              isExpanded: true,
+              value: _selectedPriority,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _selectedPriority = value;
+                  });
+                }
+              },
+              items: ToDoPriority.values.map((priority) {
+                return DropdownMenuItem(
+                  value: priority,
+                  child: Text(priority.name.toUpperCase()),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 15),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Due Date:'),
+            ),
+            const SizedBox(height: 5),
+            TextButton(
+              onPressed: () async {
+                final pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: _selectedDueDate,
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime(2100),
+                );
+                if (pickedDate != null) {
+                  setState(() {
+                    _selectedDueDate = pickedDate;
+                  });
+                }
+              },
+              child: Text(
+                _selectedDueDate == null
+                    ? 'Select Due Date'
+                    : DateFormat('dd-MMM-yyyy')
+                        .format(_selectedDueDate!.toLocal()),
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
         TextButton(
@@ -148,6 +173,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
         TextButton(
           onPressed: () {
             if (_titleController.text.isEmpty ||
+                _selectedStatus == null ||
                 _selectedPriority == null ||
                 _selectedDueDate == null) {
               return;
@@ -155,7 +181,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
 
             widget.onSave(
               _titleController.text,
-              ToDoStatus.pending,
+              _selectedStatus!,
               _selectedPriority!,
               _selectedDueDate!,
             );

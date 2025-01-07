@@ -99,15 +99,56 @@ class TodoListPage extends StatelessWidget {
       return priorityComparison;
     });
 
-    Color getTaskIconColor(ToDoPriority priority) {
+    Color getPriorityColor(ToDoPriority priority) {
       switch (priority) {
         case ToDoPriority.high:
-          return Colors.red;
+          return Colors.red[300]!;
         case ToDoPriority.medium:
-          return Colors.orange;
+          return Colors.orange[300]!;
         case ToDoPriority.low:
-          return Colors.green;
+          return Colors.green[300]!;
       }
+    }
+
+    Color getStatusColor(ToDoStatus status) {
+      switch (status) {
+        case ToDoStatus.pending:
+          return Colors.grey[300]!;
+        case ToDoStatus.inprogress:
+          return Colors.blue[300]!;
+        case ToDoStatus.completed:
+          return Colors.green[300]!;
+      }
+    }
+
+    Row buildBadgeColor({
+      required String title,
+      required String label,
+      required Color color,
+      required double width,
+    }) {
+      return Row(
+        children: [
+          Text(
+            '$title: ',
+          ),
+          SizedBox(
+            width: width,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(15),
+                ),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(label),
+              ),
+            ),
+          ),
+        ],
+      );
     }
 
     return ListView.builder(
@@ -115,48 +156,67 @@ class TodoListPage extends StatelessWidget {
       itemBuilder: (context, index) {
         final todo = todos[index];
 
-        return Slidable(
-          endActionPane: ActionPane(
-            extentRatio: 0.25,
-            motion: const DrawerMotion(),
-            children: [
-              SlidableAction(
-                autoClose: true,
-                onPressed: (context) {
-                  showConfirmDeleteModal(context, index);
-                },
-                backgroundColor: Colors.red,
-                icon: Icons.delete,
-              ),
-            ],
-          ),
-          child: GestureDetector(
-            onTap: () {
-              _showEditTodoDialog(
-                context,
-                todo,
-                index,
-              );
-            },
-            child: ListTile(
-              leading: Icon(
-                Icons.task,
-                color: getTaskIconColor(todo.priority),
-              ),
-              title: Text(
-                todo.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'prioriry: ${todo.priority.name.toString()}',
+        return Card(
+          child: Slidable(
+            endActionPane: ActionPane(
+              extentRatio: 0.25,
+              motion: const DrawerMotion(),
+              children: [
+                SlidableAction(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
                   ),
-                  Text(
-                      'due date: ${DateFormat('dd-MMM-yyyy').format(todo.dueDate)}'),
-                ],
+                  autoClose: true,
+                  onPressed: (context) {
+                    showConfirmDeleteModal(context, index);
+                  },
+                  backgroundColor: Colors.red[300]!,
+                  icon: Icons.delete,
+                ),
+              ],
+            ),
+            child: GestureDetector(
+              onTap: () {
+                _showEditTodoDialog(
+                  context,
+                  todo,
+                  index,
+                );
+              },
+              child: ListTile(
+                leading: const Icon(
+                  Icons.task,
+                  color: Colors.grey,
+                ),
+                title: Text(
+                  todo.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildBadgeColor(
+                      title: 'status',
+                      label: todo.status.name,
+                      color: getStatusColor(todo.status),
+                      width: 100,
+                    ),
+                    const SizedBox(height: 5),
+                    buildBadgeColor(
+                        title: 'prioriry',
+                        label: todo.priority.name,
+                        color: getPriorityColor(todo.priority),
+                        width: 70),
+                    const SizedBox(height: 5),
+                    Text(
+                        'due date: ${DateFormat('dd-MMM-yyyy').format(todo.dueDate)}'),
+                  ],
+                ),
               ),
             ),
           ),
