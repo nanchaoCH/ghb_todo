@@ -20,48 +20,55 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Login'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.task,
-                    size: 150,
-                    color: Colors.green,
-                  ),
-                  Text(
-                    'Todo',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 30),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.task,
+                      size: 150,
+                      color: Colors.green,
                     ),
-                  ),
-                ],
+                    Text(
+                      'Todo',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(200, 40),
+              TextField(
+                controller: _usernameController,
+                decoration: const InputDecoration(labelText: 'Username'),
+                maxLength: 100,
+                maxLines: 1,
               ),
-              onPressed: () => {
-                Navigator.pushReplacementNamed(context, AppRoutes.homePage),
-              },
-              child: const Text('Login'),
-            ),
-          ],
+              TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(labelText: 'Password'),
+                maxLength: 100,
+                maxLines: 1,
+                obscureText: true,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(200, 40),
+                ),
+                onPressed: () => {
+                  Navigator.pushReplacementNamed(context, AppRoutes.homePage),
+                },
+                child: const Text('Login'),
+              ),
+            ],
+          ),
         ),
       ),
     );
