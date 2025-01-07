@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Todo : Login'),
+        title: const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -26,10 +26,20 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 30),
-              child: Icon(
-                Icons.task,
-                size: 150,
-                color: Colors.green,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.task,
+                    size: 150,
+                    color: Colors.green,
+                  ),
+                  Text(
+                    'Todo',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             TextField(
