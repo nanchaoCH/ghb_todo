@@ -28,6 +28,15 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(),
+      // home: Scaffold(
+      //   appBar: AppBar(
+      //     title: const Text('Todo App'),
+      //     backgroundColor: Colors.greenAccent,
+      //   ),
+      //   body: const Center(
+      //     child: Text('todo app'),
+      //   ),
+      // ),
     );
   }
 }
