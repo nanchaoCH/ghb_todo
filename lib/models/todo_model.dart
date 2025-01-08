@@ -27,24 +27,24 @@ class ToDoStatus {
 }
 
 class TodoModel {
-  String id;
+  String? id;
   String title;
   String priority;
   String status;
   DateTime dueDate;
   String createdBy;
-  DateTime createdAt;
+  DateTime? createdAt;
   String? updatedBy;
   DateTime? updatedAt;
 
   TodoModel({
-    required this.id,
+    this.id,
     required this.title,
     required this.priority,
     required this.status,
     required this.dueDate,
     required this.createdBy,
-    required this.createdAt,
+    this.createdAt,
     this.updatedBy,
     this.updatedAt,
   });
@@ -62,21 +62,5 @@ class TodoModel {
       updatedAt:
           json['updatedAt'] == null ? null : DateTime.parse(json['updatedAt']),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-
-    data['id'] = id;
-    data['title'] = title;
-    data['priority'] = priority;
-    data['status'] = status;
-    data['dueDate'] = dueDate.toUtc().toIso8601String();
-    data['createdBy'] = createdBy;
-    data['createdAt'] = createdAt.toUtc().toIso8601String();
-    data['updatedBy'] = updatedBy;
-    data['updatedAt'] = updatedAt?.toUtc().toIso8601String();
-
-    return data;
   }
 }

@@ -25,25 +25,24 @@ class TodoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addTodo(
-    String title,
-    String priority,
-    String status,
-    DateTime dueDate,
-  ) {
-    _todos.add(
-      TodoModel(
-        id: '',
-        title: title,
-        priority: priority,
-        status: status,
-        dueDate: dueDate,
-        createdAt: DateTime.now(),
-        createdBy: 'user',
-      ),
+  Future<String?> createTodoAsync({
+    required String title,
+    required String priority,
+    required String status,
+    required DateTime dueDate,
+  }) async {
+    var res = await _apiService.createTodoAsync(
+      title: title,
+      priority: priority,
+      status: status,
+      dueDate: dueDate,
     );
 
-    notifyListeners();
+    if (res.statusCode != HttpStatus.created) {
+      return null;
+    }
+
+    return res.data['id'];
   }
 
   void updateTodo(

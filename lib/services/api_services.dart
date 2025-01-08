@@ -66,11 +66,20 @@ class ApiServices {
   }
 
   Future<Response> createTodoAsync({
-    required TodoModel data,
+    required String title,
+    required String priority,
+    required String status,
+    required DateTime dueDate,
   }) async {
     return await _dio.post(
       '/Todo',
-      data: data.toJson(),
+      data: {
+        "title": title,
+        "priority": priority,
+        "status": status,
+        "dueDate": dueDate.toUtc().toIso8601String(),
+        "createdBy": "user"
+      },
       options: Options(extra: {"requiresToken": true}),
     );
   }
