@@ -175,76 +175,79 @@ class _TodoListPageState extends State<TodoListPage> {
       );
     }
 
-    return ListView.builder(
-      itemCount: todos.length,
-      itemBuilder: (context, index) {
-        final todo = todos[index];
-
-        return Card(
-          child: Slidable(
-            endActionPane: ActionPane(
-              extentRatio: 0.25,
-              motion: const DrawerMotion(),
-              children: [
-                SlidableAction(
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
-                  autoClose: true,
-                  onPressed: (context) {
-                    showConfirmDeleteModal(context, index);
-                  },
-                  backgroundColor: Colors.red[300]!,
-                  icon: Icons.delete,
-                ),
-              ],
-            ),
-            child: GestureDetector(
-              onTap: () {
-                _showEditTodoDialog(
-                  context,
-                  todo.id,
-                );
-              },
-              child: ListTile(
-                leading: const Icon(
-                  Icons.task,
-                  color: Colors.grey,
-                ),
-                title: Text(
-                  todo.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildBadgeColor(
-                      title: 'status',
-                      label: todo.status,
-                      color: getStatusColor(todo.status),
-                      width: 100,
+    return RefreshIndicator(
+      onRefresh: () => getListAsync(),
+      child: ListView.builder(
+        itemCount: todos.length,
+        itemBuilder: (context, index) {
+          final todo = todos[index];
+      
+          return Card(
+            child: Slidable(
+              endActionPane: ActionPane(
+                extentRatio: 0.25,
+                motion: const DrawerMotion(),
+                children: [
+                  SlidableAction(
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
                     ),
-                    const SizedBox(height: 5),
-                    buildBadgeColor(
-                        title: 'prioriry',
-                        label: todo.priority,
-                        color: getPriorityColor(todo.priority),
-                        width: 70),
-                    const SizedBox(height: 5),
-                    Text(
-                        'due date: ${DateFormat('dd-MMM-yyyy').format(todo.dueDate)}'),
-                  ],
+                    autoClose: true,
+                    onPressed: (context) {
+                      showConfirmDeleteModal(context, index);
+                    },
+                    backgroundColor: Colors.red[300]!,
+                    icon: Icons.delete,
+                  ),
+                ],
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  _showEditTodoDialog(
+                    context,
+                    todo.id,
+                  );
+                },
+                child: ListTile(
+                  leading: const Icon(
+                    Icons.task,
+                    color: Colors.grey,
+                  ),
+                  title: Text(
+                    todo.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildBadgeColor(
+                        title: 'status',
+                        label: todo.status,
+                        color: getStatusColor(todo.status),
+                        width: 100,
+                      ),
+                      const SizedBox(height: 5),
+                      buildBadgeColor(
+                          title: 'prioriry',
+                          label: todo.priority,
+                          color: getPriorityColor(todo.priority),
+                          width: 70),
+                      const SizedBox(height: 5),
+                      Text(
+                          'due date: ${DateFormat('dd-MMM-yyyy').format(todo.dueDate)}'),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
