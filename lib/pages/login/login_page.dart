@@ -63,7 +63,12 @@ class _LoginPageState extends State<LoginPage> {
                   minimumSize: const Size(200, 40),
                 ),
                 onPressed: () => {
-                  Navigator.pushReplacementNamed(context, AppRoutes.homePage),
+                  if (_usernameController.text.isNotEmpty &&
+                      _passwordController.text.isNotEmpty)
+                    {
+                      Navigator.pushReplacementNamed(
+                          context, AppRoutes.homePage),
+                    }
                 },
                 child: const Text('Login'),
               ),
