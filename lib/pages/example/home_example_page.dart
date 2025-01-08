@@ -13,24 +13,49 @@ class _HomeExamplePageState extends State<HomeExamplePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Example'),
+        title: const Text('Layout Widget Example'),
       ),
-      body: ListView(
-        children: const <Widget>[
-          ListTile(
-            leading: Icon(Icons.map),
-            title: Text('Map'),
+      body: const ThaiFlag(),
+    );
+  }
+}
+
+class ThaiFlag extends StatelessWidget {
+  const ThaiFlag({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Container(
+            color: Colors.red,
           ),
-          ListTile(
-            leading: Icon(Icons.photo_album),
-            title: Text('Album'),
+        ),
+        Expanded(
+          child: Container(
+            color: Colors.white,
           ),
-          ListTile(
-            leading: Icon(Icons.phone),
-            title: Text('Phone'),
+        ),
+        Expanded(
+          flex: 2,
+          child: Container(
+            color: Colors.blue,
           ),
-        ],
-      ),
+        ),
+        Expanded(
+          child: Container(
+            color: Colors.white,
+          ),
+        ),
+        Expanded(
+          child: Container(
+            color: Colors.red,
+          ),
+        ),
+      ],
     );
   }
 }
