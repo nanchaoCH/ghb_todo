@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ghb_todo/pages/my_home/my_home_page.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/account_provider.dart';
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: Routes.generateRoute,
       initialRoute: Routes.initialRoute,
-      home: const MyHomePage(),
+      // home: const MyHomePage(),
       // home: const HomeExamplePage(),
     );
   }
