@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:ghb_todo/models/todo_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../interceptors/token_interceptor.dart';
@@ -8,6 +7,10 @@ class ApiServices {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: "https://todo-api.staging.codehard.co.th/api",
+      headers: {
+        'accept': '*/*',
+        'Content-Type': 'application/json',
+      },
     ),
   );
 
@@ -84,7 +87,35 @@ class ApiServices {
     );
   }
 
+  Future<Response> updateTodoAsync({
+    required String id,
+    required String title,
+    required String priority,
+    required String status,
+    required DateTime dueDate,
+  }) async {
+    final data = {
+      "id": id,
+      "title": title,
+      "priority": priority,
+      "status": status,
+      "dueDate": dueDate.toUtc().toIso8601String(),
+      "updatedBy": "user"
+    };
+
+    return await _dio.put(
+      '/Todo/$id',
+      data: data,
+    );
+  }
+
   Future<Response> getTodoListAsync() {
     return _dio.get('/Todo');
+  }
+
+  Future<Response> getTodoByIdAsync({
+    required String todoId,
+  }) {
+    return _dio.get('/Todo/$todoId');
   }
 }

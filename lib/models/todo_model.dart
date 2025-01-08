@@ -27,7 +27,7 @@ class ToDoStatus {
 }
 
 class TodoModel {
-  String? id;
+  String id;
   String title;
   String priority;
   String status;
@@ -38,7 +38,7 @@ class TodoModel {
   DateTime? updatedAt;
 
   TodoModel({
-    this.id,
+    required this.id,
     required this.title,
     required this.priority,
     required this.status,

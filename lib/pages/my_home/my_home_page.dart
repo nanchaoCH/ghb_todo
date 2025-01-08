@@ -37,16 +37,16 @@ class _MyHomePageState extends State<MyHomePage> {
         initialDueDate: null,
         onSave: (
           title,
-          status,
           priority,
+          status,
           dueDate,
         ) async {
           final todoProvider = context.read<TodoProvider>();
 
           await todoProvider.createTodoAsync(
             title: title,
-            status: status,
             priority: priority,
+            status: status,
             dueDate: dueDate,
           );
 

@@ -15,11 +15,18 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  void _showEditTodoDialog(
+  Future<void> _showEditTodoDialog(
     BuildContext context,
-    TodoModel todo,
-    int index,
-  ) {
+    String todoId,
+  ) async {
+    final todo =
+        await context.read<TodoProvider>().getByIdAsync(todoId: todoId);
+
+    if (todo == null) {
+      print('data not found');
+      return;
+    }
+
     showDialog(
       context: context,
       builder: (context) => TodoFormModalWidget(
@@ -32,17 +39,16 @@ class _TodoListPageState extends State<TodoListPage> {
           priority,
           status,
           dueDate,
-        ) {
-          Provider.of<TodoProvider>(
+        ) async {
+          await Provider.of<TodoProvider>(
             context,
             listen: false,
-          ).updateTodo(
-            index,
-            title,
-            status,
-            priority,
-            dueDate,
-            todo,
+          ).updateTodoAsync(
+            id: todoId,
+            title: title,
+            priority: priority,
+            status: status,
+            dueDate: dueDate,
           );
         },
         isEdit: true,
@@ -70,8 +76,8 @@ class _TodoListPageState extends State<TodoListPage> {
               style: TextStyle(color: Colors.red),
             ),
             onPressed: () {
-              Provider.of<TodoProvider>(context, listen: false)
-                  .removeTodo(todoIndex);
+              // Provider.of<TodoProvider>(context, listen: false)
+              //     .removeTodo(todoIndex);
 
               Navigator.of(context).pop(false);
             },
@@ -198,8 +204,7 @@ class _TodoListPageState extends State<TodoListPage> {
               onTap: () {
                 _showEditTodoDialog(
                   context,
-                  todo,
-                  index,
+                  todo.id,
                 );
               },
               child: ListTile(
