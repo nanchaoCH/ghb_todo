@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ghb_todo/models/todo_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../interceptors/token_interceptor.dart';
@@ -6,7 +7,7 @@ import '../interceptors/token_interceptor.dart';
 class ApiServices {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: "http://192.168.0.234:5024/api",
+      baseUrl: "https://todo-api.staging.codehard.co.th/api",
     ),
   );
 
@@ -62,5 +63,19 @@ class ApiServices {
         extra: {"requiresToken": true},
       ),
     );
+  }
+
+  Future<Response> createTodoAsync({
+    required TodoModel data,
+  }) async {
+    return await _dio.post(
+      '/Todo',
+      data: data.toJson(),
+      options: Options(extra: {"requiresToken": true}),
+    );
+  }
+
+  Future<Response> getTodoListAsync() {
+    return _dio.get('/Todo');
   }
 }

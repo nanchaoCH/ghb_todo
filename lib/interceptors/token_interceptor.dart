@@ -27,19 +27,19 @@ class TokenInterceptor extends Interceptor {
     super.onRequest(options, handler);
   }
 
-  @override
-  void onError(
-    DioException err,
-    ErrorInterceptorHandler handler,
-  ) async {
-    if (err.response?.statusCode == HttpStatus.unauthorized) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('token');
+  // @override
+  // void onError(
+  //   DioException err,
+  //   ErrorInterceptorHandler handler,
+  // ) async {
+  //   if (err.response?.statusCode == HttpStatus.unauthorized) {
+  //     final prefs = await SharedPreferences.getInstance();
+  //     await prefs.remove('token');
 
-      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
-      return;
-    }
+  //     navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
+  //     return;
+  //   }
 
-    super.onError(err, handler);
-  }
+  //   super.onError(err, handler);
+  // }
 }
