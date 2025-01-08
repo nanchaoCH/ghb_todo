@@ -19,8 +19,9 @@ class _TodoListPageState extends State<TodoListPage> {
     BuildContext context,
     String todoId,
   ) async {
-    final todo =
-        await context.read<TodoProvider>().getByIdAsync(todoId: todoId);
+    final todoProvider = context.read<TodoProvider>();
+
+    final todo = await todoProvider.getByIdAsync(todoId: todoId);
 
     if (todo == null) {
       print('data not found');
@@ -40,16 +41,15 @@ class _TodoListPageState extends State<TodoListPage> {
           status,
           dueDate,
         ) async {
-          await Provider.of<TodoProvider>(
-            context,
-            listen: false,
-          ).updateTodoAsync(
+          await todoProvider.updateTodoAsync(
             id: todoId,
             title: title,
             priority: priority,
             status: status,
             dueDate: dueDate,
           );
+
+          await todoProvider.getListAsync();
         },
         isEdit: true,
       ),
@@ -181,7 +181,7 @@ class _TodoListPageState extends State<TodoListPage> {
         itemCount: todos.length,
         itemBuilder: (context, index) {
           final todo = todos[index];
-      
+
           return Card(
             child: Slidable(
               endActionPane: ActionPane(
