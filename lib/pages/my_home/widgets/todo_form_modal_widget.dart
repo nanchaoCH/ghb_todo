@@ -6,13 +6,13 @@ import '../../../models/todo_model.dart';
 class TodoFormModalWidget extends StatefulWidget {
   final bool isEdit;
   final String? initialTitle;
-  final ToDoPriority? initialPriority;
-  final ToDoStatus? initialStatus;
+  final String? initialPriority;
+  final String? initialStatus;
   final DateTime? initialDueDate;
   final Function(
     String,
-    ToDoStatus,
-    ToDoPriority,
+    String,
+    String,
     DateTime,
   ) onSave;
 
@@ -35,8 +35,8 @@ class TodoFormModalWidget extends StatefulWidget {
 
 class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
   late TextEditingController _titleController;
-  late ToDoPriority? _selectedPriority;
-  late ToDoStatus? _selectedStatus;
+  late String? _selectedPriority;
+  late String? _selectedStatus;
   late DateTime? _selectedDueDate;
 
   @override
@@ -90,7 +90,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
               alignment: Alignment.centerLeft,
               child: Text('Status:'),
             ),
-            DropdownButton<ToDoStatus>(
+            DropdownButton<String>(
               isExpanded: true,
               value: _selectedStatus,
               onChanged: (value) {
@@ -100,10 +100,10 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
                   });
                 }
               },
-              items: ToDoStatus.values.map((priority) {
+              items: ToDoStatus.allStatuses.map((item) {
                 return DropdownMenuItem(
-                  value: priority,
-                  child: Text(priority.name.toUpperCase()),
+                  value: item,
+                  child: Text(item.toUpperCase()),
                 );
               }).toList(),
             ),
@@ -112,7 +112,7 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
               alignment: Alignment.centerLeft,
               child: Text('Priority:'),
             ),
-            DropdownButton<ToDoPriority>(
+            DropdownButton<String>(
               isExpanded: true,
               value: _selectedPriority,
               onChanged: (value) {
@@ -122,10 +122,10 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
                   });
                 }
               },
-              items: ToDoPriority.values.map((priority) {
+              items: ToDoPriority.allStatuses.map((item) {
                 return DropdownMenuItem(
-                  value: priority,
-                  child: Text(priority.name.toUpperCase()),
+                  value: item,
+                  child: Text(item.toUpperCase()),
                 );
               }).toList(),
             ),

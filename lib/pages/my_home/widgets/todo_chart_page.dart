@@ -14,8 +14,8 @@ class TodoChartPage extends StatefulWidget {
 }
 
 class _TodoChartPageState extends State<TodoChartPage> {
-  Map<ToDoPriority, int> _calculatePriorityCounts(List<TodoModel> todos) {
-    final Map<ToDoPriority, int> counts = {
+  Map<String, int> _calculatePriorityCounts(List<TodoModel> todos) {
+    final Map<String, int> counts = {
       ToDoPriority.low: 0,
       ToDoPriority.medium: 0,
       ToDoPriority.high: 0,
@@ -118,7 +118,7 @@ class _TodoChartPageState extends State<TodoChartPage> {
   }
 
   List<PieChartSectionData> _buildPieChartSections(
-    Map<ToDoPriority, int> priorityCounts,
+    Map<String, int> priorityCounts,
   ) {
     final total = priorityCounts.values.reduce((a, b) => a + b);
     final colors = {
@@ -135,7 +135,7 @@ class _TodoChartPageState extends State<TodoChartPage> {
       return PieChartSectionData(
         color: colors[priority],
         value: count.toDouble(),
-        title: "${priority.name}\n${percentage.toStringAsFixed(1)}%",
+        title: "$priority\n${percentage.toStringAsFixed(1)}%",
         radius: 50,
         titleStyle: const TextStyle(
           fontSize: 12,

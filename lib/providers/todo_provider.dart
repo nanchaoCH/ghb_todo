@@ -1,20 +1,39 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:ghb_todo/services/api_services.dart';
 import '../models/todo_model.dart';
 
 class TodoProvider with ChangeNotifier {
-  final List<TodoModel> _todos = [];
+  final _apiService = ApiServices();
+
+  List<TodoModel> _todos = [];
 
   List<TodoModel> get todos => _todos;
 
+  Future<void> getListAsync() async {
+    var res = await _apiService.getTodoListAsync();
+
+    if (res.statusCode != HttpStatus.ok) {
+      _todos = [];
+      return;
+    }
+
+    _todos =
+        (res.data as List).map((item) => TodoModel.fromJson(item)).toList();
+
+    notifyListeners();
+  }
+
   void addTodo(
     String title,
-    ToDoPriority priority,
-    ToDoStatus status,
+    String priority,
+    String status,
     DateTime dueDate,
   ) {
     _todos.add(
       TodoModel(
-        id: 'test_id',
+        id: '',
         title: title,
         priority: priority,
         status: status,
@@ -30,8 +49,8 @@ class TodoProvider with ChangeNotifier {
   void updateTodo(
     int index,
     String title,
-    ToDoPriority priority,
-    ToDoStatus status,
+    String priority,
+    String status,
     DateTime dueDate,
     TodoModel originModel,
   ) {

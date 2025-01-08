@@ -7,9 +7,14 @@ import '../../../models/todo_model.dart';
 import '../../../providers/todo_provider.dart';
 import 'todo_form_modal_widget.dart';
 
-class TodoListPage extends StatelessWidget {
+class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
 
+  @override
+  State<TodoListPage> createState() => _TodoListPageState();
+}
+
+class _TodoListPageState extends State<TodoListPage> {
   void _showEditTodoDialog(
     BuildContext context,
     TodoModel todo,
@@ -76,21 +81,30 @@ class TodoListPage extends StatelessWidget {
     );
   }
 
+  Future<void> getListAsync() async {
+    final todoProvider = context.read<TodoProvider>();
+
+    await todoProvider.getListAsync();
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getListAsync();
+  }
+
   @override
   Widget build(BuildContext context) {
     final todos = Provider.of<TodoProvider>(context).todos;
 
-    final priorityOrder = [
-      ToDoPriority.high.name,
-      ToDoPriority.medium.name,
-      ToDoPriority.low.name,
-    ];
+    const priorityOrder = ToDoPriority.allStatuses;
 
     todos.sort((a, b) {
-      final priorityComparison =
-          priorityOrder.indexOf(a.priority.name).compareTo(
-                priorityOrder.indexOf(b.priority.name),
-              );
+      final priorityComparison = priorityOrder.indexOf(a.priority).compareTo(
+            priorityOrder.indexOf(b.priority),
+          );
 
       if (priorityComparison == 0) {
         return a.title.compareTo(b.title);
@@ -99,7 +113,7 @@ class TodoListPage extends StatelessWidget {
       return priorityComparison;
     });
 
-    Color getPriorityColor(ToDoPriority priority) {
+    Color getPriorityColor(String priority) {
       switch (priority) {
         case ToDoPriority.high:
           return Colors.red[300]!;
@@ -108,9 +122,11 @@ class TodoListPage extends StatelessWidget {
         case ToDoPriority.low:
           return Colors.green[300]!;
       }
+
+      return Colors.grey;
     }
 
-    Color getStatusColor(ToDoStatus status) {
+    Color getStatusColor(String status) {
       switch (status) {
         case ToDoStatus.pending:
           return Colors.grey[300]!;
@@ -119,6 +135,8 @@ class TodoListPage extends StatelessWidget {
         case ToDoStatus.completed:
           return Colors.green[300]!;
       }
+
+      return Colors.grey;
     }
 
     Row buildBadgeColor({
@@ -202,14 +220,14 @@ class TodoListPage extends StatelessWidget {
                   children: [
                     buildBadgeColor(
                       title: 'status',
-                      label: todo.status.name,
+                      label: todo.status,
                       color: getStatusColor(todo.status),
                       width: 100,
                     ),
                     const SizedBox(height: 5),
                     buildBadgeColor(
                         title: 'prioriry',
-                        label: todo.priority.name,
+                        label: todo.priority,
                         color: getPriorityColor(todo.priority),
                         width: 70),
                     const SizedBox(height: 5),
