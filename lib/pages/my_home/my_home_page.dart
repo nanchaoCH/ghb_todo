@@ -3,6 +3,7 @@ import 'package:ghb_todo/pages/my_home/widgets/chat_page.dart';
 import 'package:ghb_todo/pages/my_home/widgets/todo_chart_page.dart';
 import 'package:ghb_todo/pages/my_home/widgets/todo_list_page.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../providers/todo_provider.dart';
 import '../../routes/app_routes.dart';
@@ -73,6 +74,29 @@ class _MyHomePageState extends State<MyHomePage> {
     return 'unknow page';
   }
 
+  Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('auth_token');
+
+    Navigator.pushReplacementNamed(context, AppRoutes.login);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAuthState();
+  }
+
+  Future<void> getAuthState() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final authToken = prefs.getString('auth_token');
+
+    if (authToken == null || authToken.isEmpty) {
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, AppRoutes.login);
+              logout();
             },
           ),
         ],

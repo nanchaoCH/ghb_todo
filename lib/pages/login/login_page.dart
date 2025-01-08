@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../routes/app_routes.dart';
 
@@ -12,6 +13,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> login() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('auth_token', 'auth_token_result');
+
+    Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +70,13 @@ class _LoginPageState extends State<LoginPage> {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(200, 40),
                 ),
-                onPressed: () => {
-                  if (_usernameController.text.isNotEmpty &&
-                      _passwordController.text.isNotEmpty)
-                    {
-                      Navigator.pushReplacementNamed(
-                          context, AppRoutes.homePage),
+                onPressed: () {
+                  {
+                    if (_usernameController.text.isNotEmpty &&
+                        _passwordController.text.isNotEmpty) {
+                      login();
                     }
+                  }
                 },
                 child: const Text('Login'),
               ),

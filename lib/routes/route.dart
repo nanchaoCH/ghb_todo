@@ -7,7 +7,7 @@ import 'app_routes.dart';
 class Routes {
   const Routes._();
 
-  static const String initialRoute = AppRoutes.login;
+  static const String initialRoute = AppRoutes.homePage;
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
