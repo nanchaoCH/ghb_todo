@@ -24,36 +24,37 @@ class _TodoListPageState extends State<TodoListPage> {
     final todo = await todoProvider.getByIdAsync(todoId: todoId);
 
     if (todo == null) {
-      print('data not found');
       return;
     }
 
-    showDialog(
-      context: context,
-      builder: (context) => TodoFormModalWidget(
-        initialTitle: todo.title,
-        initialPriority: todo.priority,
-        initialStatus: todo.status,
-        initialDueDate: todo.dueDate,
-        onSave: (
-          title,
-          priority,
-          status,
-          dueDate,
-        ) async {
-          await todoProvider.updateTodoAsync(
-            id: todoId,
-            title: title,
-            priority: priority,
-            status: status,
-            dueDate: dueDate,
-          );
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (context) => TodoFormModalWidget(
+          initialTitle: todo.title,
+          initialPriority: todo.priority,
+          initialStatus: todo.status,
+          initialDueDate: todo.dueDate,
+          onSave: (
+            title,
+            priority,
+            status,
+            dueDate,
+          ) async {
+            await todoProvider.updateTodoAsync(
+              id: todoId,
+              title: title,
+              priority: priority,
+              status: status,
+              dueDate: dueDate,
+            );
 
-          await todoProvider.getListAsync();
-        },
-        isEdit: true,
-      ),
-    );
+            todoProvider.getListAsync();
+          },
+          isEdit: true,
+        ),
+      );
+    }
   }
 
   Future<bool> showConfirmDeleteModal(
