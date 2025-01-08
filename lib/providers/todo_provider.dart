@@ -25,6 +25,18 @@ class TodoProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<TodoModel?> getByIdAsync({
+    required String todoId,
+  }) async {
+    var res = await _apiService.getTodoByIdAsync(todoId: todoId);
+
+    if (res.statusCode != HttpStatus.ok) {
+      return null;
+    }
+
+    return TodoModel.fromJson(res.data);
+  }
+
   Future<String?> createTodoAsync({
     required String title,
     required String priority,
@@ -45,31 +57,30 @@ class TodoProvider with ChangeNotifier {
     return res.data['id'];
   }
 
-  void updateTodo(
-    int index,
-    String title,
-    String priority,
-    String status,
-    DateTime dueDate,
-    TodoModel originModel,
-  ) {
-    _todos[index] = TodoModel(
-      id: originModel.id,
+  Future<bool> updateTodoAsync({
+    required String id,
+    required String title,
+    required String priority,
+    required String status,
+    required DateTime dueDate,
+  }) async {
+    var res = await _apiService.updateTodoAsync(
+      id: id,
       title: title,
       priority: priority,
       status: status,
       dueDate: dueDate,
-      createdAt: originModel.createdAt,
-      createdBy: originModel.createdBy,
-      updatedAt: DateTime.now(),
-      updatedBy: 'user',
     );
 
-    notifyListeners();
+    if (res.statusCode != HttpStatus.noContent) {
+      return false;
+    }
+
+    return true;
   }
 
   void removeTodo(int index) {
-    _todos.removeAt(index);
+    // _todos.removeAt(index);
 
     notifyListeners();
   }

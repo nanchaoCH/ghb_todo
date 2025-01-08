@@ -181,8 +181,8 @@ class _TodoFormModalWidgetState extends State<TodoFormModalWidget> {
 
             widget.onSave(
               _titleController.text,
-              _selectedStatus!,
               _selectedPriority!,
+              _selectedStatus!,
               _selectedDueDate!,
             );
 
