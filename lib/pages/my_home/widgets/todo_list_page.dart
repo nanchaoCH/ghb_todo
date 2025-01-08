@@ -92,7 +92,9 @@ class _TodoListPageState extends State<TodoListPage> {
 
     await todoProvider.getListAsync();
 
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
