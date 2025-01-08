@@ -31,6 +31,7 @@ class _TodoChartPageState extends State<TodoChartPage> {
   @override
   Widget build(BuildContext context) {
     final todos = Provider.of<TodoProvider>(context).todos;
+    // default listen:TRUE, rebuild widget เมื่อค่ามีการเปลี่ยนแปลง
 
     if (todos.isEmpty) {
       return const Center(
