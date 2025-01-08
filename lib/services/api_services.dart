@@ -14,6 +14,7 @@ class ApiServices {
 
   ApiServices() {
     _dio.interceptors.add(_tokenInterceptor);
+
     _initializeToken();
   }
 

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:ghb_todo/pages/login/login_page.dart';
+import 'package:ghb_todo/pages/my_home/my_home_page.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/account_provider.dart';
 import 'providers/todo_provider.dart';
 import 'routes/route.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   runApp(
@@ -25,23 +27,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'GHB Todo App',
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
-      // home: Scaffold(
-      //   appBar: AppBar(
-      //     title: const Text('Todo App'),
-      //     backgroundColor: Colors.greenAccent,
-      //   ),
-      //   body: const Center(
-      //     child: Text('todo app'),
-      //   ),
-      // ),
       onGenerateRoute: Routes.generateRoute,
       initialRoute: Routes.initialRoute,
+      home: const MyHomePage(),
+      // home: const HomeExamplePage(),
     );
   }
 }
