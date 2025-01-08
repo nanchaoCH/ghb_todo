@@ -40,16 +40,17 @@ class _MyHomePageState extends State<MyHomePage> {
           status,
           priority,
           dueDate,
-        ) {
-          Provider.of<TodoProvider>(
-            context,
-            listen: false,
-          ).addTodo(
-            title,
-            priority,
-            status,
-            dueDate,
+        ) async {
+          final todoProvider = context.read<TodoProvider>();
+
+          await todoProvider.createTodoAsync(
+            title: title,
+            status: status,
+            priority: priority,
+            dueDate: dueDate,
           );
+
+          await todoProvider.getListAsync();
         },
         isEdit: false,
       ),
