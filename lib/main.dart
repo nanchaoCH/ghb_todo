@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'GHB Todo App',
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -34,7 +33,6 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: Routes.generateRoute,
       initialRoute: Routes.initialRoute,
-      // home: const MyHomePage(),
       // home: const HomeExamplePage(),
     );
   }

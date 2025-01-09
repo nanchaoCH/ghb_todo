@@ -80,7 +80,7 @@ class _TodoListPageState extends State<TodoListPage> {
               // Provider.of<TodoProvider>(context, listen: false)
               //     .removeTodo(todoIndex);
 
-              Navigator.of(context).pop(false);
+              Navigator.of(context).pop();
             },
           ),
         ],
