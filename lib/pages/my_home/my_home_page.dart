@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghb_todo/pages/my_home/widgets/chat_page.dart';
+import 'package:ghb_todo/pages/my_home/widgets/layout_widget_example_page.dart';
 import 'package:ghb_todo/pages/my_home/widgets/todo_chart_page.dart';
 import 'package:ghb_todo/pages/my_home/widgets/todo_list_page.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +20,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   final int _listPageIndex = 0;
-  final int _chartPageIndex = 1;
-  final int _chatPageIndex = 2;
+  final int _layoutWidgetPageIndex = 1;
+  final int _chartPageIndex = 2;
+  final int _chatPageIndex = 3;
 
   final List<Widget> _pages = [
     const TodoListPage(),
+    const LayoutWidgetExamplePage(),
     const TodoChartPage(),
     const ChatPage(),
   ];
@@ -61,6 +64,10 @@ class _MyHomePageState extends State<MyHomePage> {
   String getTitleByPageIndex() {
     if (_currentIndex == _listPageIndex) {
       return 'To-do list';
+    }
+
+    if (_currentIndex == _layoutWidgetPageIndex) {
+      return 'Layout widget example';
     }
 
     if (_currentIndex == _chartPageIndex) {
@@ -127,8 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.green,
-        selectedFontSize: 15,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
@@ -138,6 +145,10 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'List',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.flag),
+            label: 'Layout',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),

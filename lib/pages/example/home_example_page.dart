@@ -27,27 +27,34 @@ class ThaiFlag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          const Text('Thai Flag'),
-          Container(
-            height: 200,
-            color: Colors.red,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  color: Colors.green,
-                  height: 100,
-                )
-              ],
+    return Column(
+      children: [
+        const Text('Thai Flag'),
+        Column(
+          children: [
+            Container(
+              color: Colors.red,
+              height: 50,
             ),
-          )
-        ],
-      ),
+            Container(
+              color: Colors.white,
+              height: 50,
+            ),
+            Container(
+              color: Colors.blue,
+              height: 80,
+            ),
+            Container(
+              color: Colors.white,
+              height: 50,
+            ),
+            Container(
+              color: Colors.red,
+              height: 50,
+            ),
+          ],
+        )
+      ],
     );
 
     // const yellowWidth = 30.0;
@@ -90,6 +97,31 @@ class ThaiFlag extends StatelessWidget {
     //               width: yellowWidth,
     //             )
     //           ],
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
+
+    // return Container(
+    //   color: Colors.grey,
+    //   padding: const EdgeInsets.all(30),
+    //   child: Stack(
+    //     children: [
+    //       Container(
+    //         height: 200,
+    //         color: Colors.white,
+    //       ),
+    //       Positioned.fill(
+    //         child: Center(
+    //           child: Container(
+    //             width: 100,
+    //             height: 100,
+    //             decoration: const BoxDecoration(
+    //               color: Colors.red,
+    //               shape: BoxShape.circle,
+    //             ),
+    //           ),
     //         ),
     //       ),
     //     ],

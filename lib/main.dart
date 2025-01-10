@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'pages/example/home_example_page.dart';
 import 'providers/account_provider.dart';
 import 'providers/todo_provider.dart';
 import 'routes/route.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: Routes.generateRoute,
       initialRoute: Routes.initialRoute,
-      // home: const HomeExamplePage(),
+      home: const HomeExamplePage(),
     );
   }
 }
